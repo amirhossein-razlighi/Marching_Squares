@@ -7,7 +7,9 @@ gc.enable()
 HEIGHT = 480
 WIDTH = 640
 RES = 10
-LINE_COLOR = "white"
+LINE_COLOR = "red"
+
+np.random.seed(30)
 
 class Point:
     def __init__(self, x, y):
