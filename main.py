@@ -7,7 +7,7 @@ gc.enable()
 HEIGHT = 480
 WIDTH = 640
 RES = 10
-LINE_COLOR = "red"
+LINE_COLOR = "white"
 
 class Point:
     def __init__(self, x, y):
@@ -37,8 +37,8 @@ def random_generator():
 
 
 def visualize_grid(grid):
-    for i in range(grid.shape[0]):
-        for j in range(grid.shape[1]):
+    for i in range(grid.shape[0] - 1):
+        for j in range(grid.shape[1] - 1):
             if grid[i][j] == 1:
                 plt.plot(i * RES, j * RES, "o", color="black", markersize=1)
             else:
@@ -86,9 +86,12 @@ def draw_seperator_line(a, b, c, d, grid):
 def main():
     random_grid = random_generator()
     visualize_grid(random_grid)
+
     # make the background of plt gray
-    plt.gca().set_facecolor((0.5, 0.5, 0.5))
-    
+    plt.gca().set_facecolor((0.6, 0.6, 0.6))
+    # make the plot axis start at 0, 0
+    plt.axis([0, WIDTH, 0, HEIGHT])
+
     for x in range(0, WIDTH, RES):
         for y in range(0, HEIGHT, RES):
             a = Point(x, y)
