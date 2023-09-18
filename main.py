@@ -32,6 +32,12 @@ class Point:
     def __gt__(self, other):
         return self.x > other.x and self.y > other.y
 
+    def __mul__(self, other):
+        if type(other) == Point:
+            return Point(self.x * other.x, self.y * other.y)
+        else:
+            return Point(self.x * other, self.y * other)
+
 
 def random_generator(use_float=False):
     if not use_float:
@@ -44,15 +50,6 @@ def random_generator(use_float=False):
         grid_values = 0.5 + grid / 2
 
     return grid, grid_values
-
-
-# def visualize_grid(grid, grid_values):
-#     if grid_values is None:
-#         grid_values = grid
-
-#     for i in range(grid.shape[0] - 1):
-#         for j in range(grid.shape[1] - 1):
-#             plt.scatter(i * RES, j * RES, s=1, color=(grid_values[i][j], grid_values[i][j], grid_values[i][j]))
 
 def visualize_grid(grid, grid_values):
     if grid_values is None:
@@ -74,6 +71,8 @@ def getState(a, b, c, d):
 def draw_line(point_1, point_2):
     plt.plot([point_1.x, point_2.x], [point_1.y, point_2.y], color=LINE_COLOR, linewidth=1)
 
+def linear_interpolation(point_1, point_2, value):
+    return point_1 + (point_2 - point_1) * value
 
 def draw_seperator_line(a, b, c, d, grid):
     a_val = grid[a.x // RES][a.y // RES]
