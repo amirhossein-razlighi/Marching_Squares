@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import gc
+from math import ceil
 
 gc.enable()
 
@@ -32,20 +33,20 @@ class Point:
         return self.x > other.x and self.y > other.y
 
 
-def random_generator():
-    # create a width/res , height/res grid and randomly fill it with 0 or 1
-    grid = np.random.randint(2, size=(1 + int(WIDTH / RES), 1 + int(HEIGHT / RES)))
+def random_generator(use_float=False):
+    if not use_float:
+        # create a width/res , height/res grid and randomly fill it with 0 or 1
+        grid = np.random.randint(2, size=(1 + int(WIDTH / RES), 1 + int(HEIGHT / RES)))
+    else:
+        # create a width/res , height/res grid and randomly fill it with continuous values between -1 and 1
+        grid = np.random.uniform(-1, 1, size=(1 + int(WIDTH / RES), 1 + int(HEIGHT / RES)))
     return grid
 
 
 def visualize_grid(grid):
     for i in range(grid.shape[0] - 1):
         for j in range(grid.shape[1] - 1):
-            if grid[i][j] == 1:
-                plt.plot(i * RES, j * RES, "o", color="black", markersize=1)
-            else:
-                plt.plot(i * RES, j * RES, "o", color="white", markersize=1)
-
+            plt.scatter(i * RES, j * RES, s=1, color=(0.5 + grid[i][j] / 2, 0.5 + grid[i][j] / 2, 0.5 + grid[i][j] / 2))
 
 def getState(a, b, c, d):
     return a * 8 + b * 4 + c * 2 + d
@@ -60,7 +61,10 @@ def draw_seperator_line(a, b, c, d, grid):
     b_val = grid[b.x // RES][b.y // RES]
     c_val = grid[c.x // RES][c.y // RES]
     d_val = grid[d.x // RES][d.y // RES]
-    state = getState(a_val, b_val, c_val, d_val)
+
+    state = getState(ceil(a_val), ceil(b_val), ceil(c_val), ceil(d_val))
+
+    
     if state == 1 or state == 14:
         draw_line(a - Point(0, 0.5 * RES), d + Point(0.5 * RES, 0))
     elif state == 2 or state == 13:
@@ -86,7 +90,7 @@ def draw_seperator_line(a, b, c, d, grid):
 
 
 def main():
-    random_grid = random_generator()
+    random_grid = random_generator(use_float=True)
     visualize_grid(random_grid)
 
     # make the background of plt gray
