@@ -37,16 +37,35 @@ def random_generator(use_float=False):
     if not use_float:
         # create a width/res , height/res grid and randomly fill it with 0 or 1
         grid = np.random.randint(2, size=(1 + int(WIDTH / RES), 1 + int(HEIGHT / RES)))
+        grid_values = None
     else:
         # create a width/res , height/res grid and randomly fill it with continuous values between -1 and 1
         grid = np.random.uniform(-1, 1, size=(1 + int(WIDTH / RES), 1 + int(HEIGHT / RES)))
-    return grid
+        grid_values = 0.5 + grid / 2
+
+    return grid, grid_values
 
 
-def visualize_grid(grid):
-    for i in range(grid.shape[0] - 1):
-        for j in range(grid.shape[1] - 1):
-            plt.scatter(i * RES, j * RES, s=1, color=(0.5 + grid[i][j] / 2, 0.5 + grid[i][j] / 2, 0.5 + grid[i][j] / 2))
+# def visualize_grid(grid, grid_values):
+#     if grid_values is None:
+#         grid_values = grid
+
+#     for i in range(grid.shape[0] - 1):
+#         for j in range(grid.shape[1] - 1):
+#             plt.scatter(i * RES, j * RES, s=1, color=(grid_values[i][j], grid_values[i][j], grid_values[i][j]))
+
+def visualize_grid(grid, grid_values):
+    if grid_values is None:
+        grid_values = grid
+
+    x_coords = np.arange(0, grid.shape[0] - 1, 1)
+    y_coords = np.arange(0, grid.shape[1] - 1, 1)
+
+    x_grid, y_grid = np.meshgrid(x_coords, y_coords)
+
+    color_values = grid_values[x_grid, y_grid]
+
+    plt.scatter(x_grid * RES, y_grid * RES, s=1, c=color_values, cmap='gray', marker='o')
 
 def getState(a, b, c, d):
     return a * 8 + b * 4 + c * 2 + d
@@ -90,8 +109,8 @@ def draw_seperator_line(a, b, c, d, grid):
 
 
 def main():
-    random_grid = random_generator(use_float=True)
-    visualize_grid(random_grid)
+    random_grid, grid_values = random_generator(use_float=True)
+    visualize_grid(random_grid, grid_values)
 
     # make the background of plt gray
     plt.gca().set_facecolor((0.6, 0.6, 0.6))
