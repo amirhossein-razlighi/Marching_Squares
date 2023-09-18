@@ -71,8 +71,11 @@ def getState(a, b, c, d):
 def draw_line(point_1, point_2):
     plt.plot([point_1.x, point_2.x], [point_1.y, point_2.y], color=LINE_COLOR, linewidth=1)
 
-def linear_interpolation(point_1, point_2, value):
-    return point_1 + (point_2 - point_1) * value
+def linear_interpolation(point_1, point_2, a_val, b_val):
+    t = (0.5 - a_val) / (b_val - a_val)
+
+    return point_1 + (point_2 - point_1) * t
+
 
 def draw_seperator_line(a, b, c, d, grid):
     a_val = grid[a.x // RES][a.y // RES]
