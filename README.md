@@ -23,3 +23,11 @@ python3 main.py
 ![Example output 2](./plots/random_grid_2.png)
 ![Example output 3](./plots/random_grid_3.png)
 
+You can run the code with `--use_float` argument to use float values for the points. Right now, we use random values between -1 and 1.
+```
+python3 main.py --use_float
+```
+
+and the result will look like:
+
+![Example output 4](./plots/random_grid_4.png)

@@ -110,8 +110,8 @@ def draw_seperator_line(a, b, c, d, grid):
         raise Exception(f"Invalid state {state}")
 
 
-def main():
-    random_grid, grid_values = random_generator(use_float=True)
+def main(args):
+    random_grid, grid_values = random_generator(use_float=args.use_float)
     visualize_grid(random_grid, grid_values)
 
     # make the background of plt gray
@@ -126,9 +126,13 @@ def main():
             c = Point(x + RES, y - RES)
             d = Point(x, y - RES)
             draw_seperator_line(a, b, c, d, random_grid)
-
+    plt.savefig("test.png")
     plt.show()
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument("--use_float", type=bool, default=False)
+    args = arg_parser.parse_args()
+    main(args)
